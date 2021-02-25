@@ -1,0 +1,274 @@
+package me.iNotLazo.SpecialItems.utils.config;
+
+import org.bukkit.enchantments.*;
+import org.bukkit.potion.*;
+import org.bukkit.*;
+import com.google.common.collect.*;
+import java.util.*;
+import org.bukkit.configuration.file.*;
+import java.util.concurrent.*;
+import org.apache.commons.lang3.time.*;
+
+public final class ConfigurationService
+{
+    public static final TimeZone SERVER_TIME_ZONE;
+    public static final List<String> DISALLOWED_FACTION_NAMES;
+    public static final Map<Enchantment, Integer> ENCHANTMENT_LIMITS;
+    public static final Map<PotionType, Integer> POTION_LIMITS;
+    public static Map<World.Environment, Integer> SPAWN_RADIUS_MAP;
+    public static int SPAWNER_PRICE;
+    public static String TEAMSPEAK_IP;
+    public static String SERVER_NAME;
+    public static ChatColor TEAMMATE_COLOUR;
+    public static ChatColor ALLY_COLOUR;
+    public static ChatColor ENEMY_COLOUR;
+    public static ChatColor SAFEZONE_COLOUR;
+    public static ChatColor ROAD_COLOUR;
+    public static ChatColor TARGET;
+    public static ChatColor WARZONE_COLOUR;
+    public static ChatColor WILDERNESS_COLOUR;
+    public static ChatColor GLOWSTONE_COLOUR;
+    public static int WARZONE_RADIUS;
+    public static int FACTION_PLAYER_LIMIT;
+    public static int MAX_ALLIES_PER_FACTION;
+    public static long DTR_MILLIS_BETWEEN_UPDATES;
+    public static String DTR_WORDS_BETWEEN_UPDATES;
+    public static ChatColor BASECOLOUR;
+    public static int CONQUEST_REQUIRED_WIN_POINTS;
+    public static long DEFAULT_DEATHBAN_DURATION;
+    public static Map<World.Environment, Integer> BORDER_SIZES;
+    public static boolean CRATE_BROADCASTS;
+    public static String COBBLE_ENABLED;
+    public static String COBBLE_DISABLED;
+    public static String LOGOUT_ALREADY_STARTED;
+    public static String LOGOUT_STARTED;
+    public static String LOGOUT_DISCONNECT;
+    public static String ECONOMY_YOUR_BALANCE;
+    public static String ECONOMY_OTHERS_BALANCE;
+    public static String ENDERPEARL_TIMER;
+    public static ChatColor ENDERPEARL_COLOUR;
+    public static String ARCHER_TIMER;
+    public static ChatColor ARCHER_COLOUR;
+    public static String LOGOUT_TIMER;
+    public static ChatColor LOGOUT_COLOUR;
+    public static String NOTCH_APPLE_TIMER;
+    public static ChatColor NOTCH_APPLE_COLOUR;
+    public static String PVP_CLASS_WARMUP_TIMER;
+    public static ChatColor PVP_CLASS_WARMUP_COLOUR;
+    public static String PVPTIMER_TIMER;
+    public static ChatColor PVPTIMER_COLOUR;
+    public static String SPAWNTAG_TIMER;
+    public static ChatColor SPAWNTAG_COLOUR;
+    public static String STUCK_TIMER;
+    public static ChatColor STUCK_COLOUR;
+    public static String TELEPORT_TIMER;
+    public static ChatColor TELEPORT_COLOUR;
+    public static String SOTW_TIMER;
+    public static ChatColor SOTW_COLOUR;
+    public static String EVENT_TIMER;
+    public static ChatColor EVENT_COLOUR;
+    public static String SOTW_STARTED;
+    public static String SOTW_NOT_ACTIVE;
+    public static String SOTW_CANCELLED;
+    public static String SOTW_ENDED_ONE;
+    public static String SOTW_ENDED_TWO;
+    public static String REVIVE_MESSAGE;
+    public static String DEATHBAN_BYPASS;
+    public static String DEATHBANNED_EOTW;
+    public static String DEATHBANNED_ACTIVE;
+    public static String STILL_DEATHBANNED;
+    public static String DEATHBANNED_USE_A_LIFE;
+    public static String DEATHBANNED_EOTW_ENTIRE;
+    public static String END_CANNOT_BUILD;
+    public static String WORLD_CANNOT_BUILD;
+    public static String FAILED_PEARL;
+    public static String TELEPORTED_SPAWN;
+    public static String CANNOT_ATTACK;
+    public static String IN_FACTION;
+    public static String ALLY_FACTION;
+    public static String CANNOT_BUILD;
+    public static String ENDERPEARL_COOLDOWN_EXPIRED;
+    public static String ENDERPEARL_ITEM;
+    public static String SPAWN_TAGGED;
+    public static String DOUBLE_ARROW;
+    public static boolean KIT_MAP;
+    public static boolean DEV;
+    public static boolean ALLOW_CLAIMING_BESIDES_ROADS;
+    public static String REPORT;
+    public static String REQUEST;
+    public static String STAFFCHAT;
+    public static String SERVER_SWITCH;
+    public static boolean TAB;
+    public static boolean DIAMOND_ORE_ALERTS;
+    public static int UNBUILDABLE_RANGE;
+    public static boolean NUCLEUS;
+    public static boolean MONGO_ENABLED;
+    public static String MONGO_HOST;
+    public static int MONGO_PORT;
+    public static String MONGO_DATABASE;
+    public static boolean MONGO_AUTH;
+    public static String MONGO_USERNAME;
+    public static String MONGO_PASSWORD;
+    public static boolean REDIS_ENABLED;
+    public static String REDIS_HOST;
+    public static int REDIS_PORT;
+    public static String REDIS_CHANNEL;
+    public static boolean REDIS_AUTH;
+    public static String REDIS_PASSWORD;
+    public static int MAX_CLAIMS_PER_FACTION;
+    public static boolean DEATHBAN_ROOM;
+    public static int WORLD_BORDER;
+    public static int NETHER_BORDER;
+    public static int END_BORDER;
+    
+    static {
+        SERVER_TIME_ZONE = TimeZone.getTimeZone("EST");
+        DISALLOWED_FACTION_NAMES = (List)ImmutableList.of((Object)"veil", (Object)"velt", (Object)"faithful", (Object)"hcteams", (Object)"hcteamseotw", (Object)"hcteamssotw", (Object)"exploitesquad", (Object)"staff", (Object)"mod", (Object)"owner", (Object)"dev", (Object)"admin", (Object[])new String[] { "ipvp" });
+        ENCHANTMENT_LIMITS = new HashMap<Enchantment, Integer>();
+        POTION_LIMITS = new EnumMap<PotionType, Integer>(PotionType.class);
+        ConfigurationService.SPAWN_RADIUS_MAP = new EnumMap<World.Environment, Integer>(World.Environment.class);
+        ConfigurationService.SPAWNER_PRICE = 40000;
+        ConfigurationService.CONQUEST_REQUIRED_WIN_POINTS = 100;
+        ConfigurationService.ALLOW_CLAIMING_BESIDES_ROADS = true;
+        ConfigurationService.DIAMOND_ORE_ALERTS = false;
+        ConfigurationService.MAX_CLAIMS_PER_FACTION = 8;
+    }
+    
+    public static void setServerBorder(final World.Environment environment, final Integer integer) {
+        if (environment.equals((Object)World.Environment.NORMAL)) {
+            ConfigurationService.WORLD_BORDER = integer;
+        }
+        else if (environment.equals((Object)World.Environment.NETHER)) {
+            ConfigurationService.NETHER_BORDER = integer;
+        }
+        else if (environment.equals((Object)World.Environment.THE_END)) {
+            ConfigurationService.END_BORDER = integer;
+        }
+    }
+    
+    public static void init(final FileConfiguration config) {
+        ConfigurationService.KIT_MAP = config.getBoolean("kit-map");
+        ConfigurationService.DEV = config.getBoolean("dev", false);
+        ConfigurationService.TAB = config.getBoolean("tab");
+        ConfigurationService.MONGO_ENABLED = config.getBoolean("database.mongo.enabled", false);
+        ConfigurationService.MONGO_HOST = config.getString("database.mongo.host", "127.0.0.1");
+        ConfigurationService.MONGO_PORT = config.getInt("database.mongo.port", 6379);
+        ConfigurationService.MONGO_DATABASE = config.getString("database.mongo.database", "database");
+        ConfigurationService.MONGO_AUTH = config.getBoolean("database.mongo.auth.enabled", false);
+        ConfigurationService.MONGO_USERNAME = config.getString("database.mongo.auth.username", "username");
+        ConfigurationService.MONGO_PASSWORD = config.getString("database.mongo.auth.password", "password");
+        ConfigurationService.REDIS_ENABLED = config.getBoolean("database.redis.enabled", false);
+        ConfigurationService.REDIS_HOST = config.getString("database.redis.host", "127.0.0.1");
+        ConfigurationService.REDIS_PORT = config.getInt("database.redis.port", 6379);
+        ConfigurationService.REDIS_CHANNEL = config.getString("database.redis.channel", "hcf-communicate");
+        ConfigurationService.REDIS_AUTH = config.getBoolean("database.redis.auth.enabled");
+        ConfigurationService.REDIS_PASSWORD = config.getString("database.redis.auth.password");
+        ConfigurationService.REPORT = config.getString("messages.report");
+        ConfigurationService.REQUEST = config.getString("messages.request");
+        ConfigurationService.STAFFCHAT = config.getString("messages.staffchat");
+        ConfigurationService.SERVER_SWITCH = config.getString("messages.serverswitch");
+        ConfigurationService.TEAMSPEAK_IP = config.getString("server-info.teamspeak");
+        ConfigurationService.WARZONE_RADIUS = config.getInt("warzone");
+        ConfigurationService.FACTION_PLAYER_LIMIT = config.getInt("faction-settings.max-players", 5);
+        ConfigurationService.MAX_ALLIES_PER_FACTION = config.getInt("faction-settings.max-allies", 5);
+        ConfigurationService.BORDER_SIZES = new EnumMap<World.Environment, Integer>(World.Environment.class);
+        ConfigurationService.POTION_LIMITS.put(PotionType.INSTANT_DAMAGE, config.getInt("potion-limits.instant_damage", 1) - 1);
+        ConfigurationService.POTION_LIMITS.put(PotionType.REGEN, config.getInt("potion-limits.regen", 1) - 1);
+        ConfigurationService.POTION_LIMITS.put(PotionType.STRENGTH, config.getInt("potion-limits.strength", 1) - 1);
+        ConfigurationService.POTION_LIMITS.put(PotionType.WEAKNESS, config.getInt("potion-limits.weakness", 1) - 1);
+        ConfigurationService.POTION_LIMITS.put(PotionType.SLOWNESS, config.getInt("potion-limits.slowness", 1) - 1);
+        ConfigurationService.POTION_LIMITS.put(PotionType.INVISIBILITY, config.getInt("potion-limits.invis", 1) - 1);
+        ConfigurationService.POTION_LIMITS.put(PotionType.POISON, config.getInt("potion-limits.poison", 1) - 1);
+        final Enchantment[] limitedEnchants = { Enchantment.PROTECTION_ENVIRONMENTAL, Enchantment.DAMAGE_ALL, Enchantment.ARROW_DAMAGE, Enchantment.KNOCKBACK, Enchantment.ARROW_KNOCKBACK, Enchantment.FIRE_ASPECT, Enchantment.THORNS, Enchantment.ARROW_FIRE };
+        Enchantment[] array;
+        for (int length = (array = limitedEnchants).length, i = 0; i < length; ++i) {
+            final Enchantment enchant = array[i];
+            try {
+                ConfigurationService.ENCHANTMENT_LIMITS.put(enchant, config.getInt("enchant-limits." + enchant.getName()));
+            }
+            catch (Exception e) {
+                System.out.println("Error getting enchantment limit. Tried getting the limit for " + enchant.getName());
+            }
+        }
+        ConfigurationService.BORDER_SIZES.put(World.Environment.NORMAL, 3000);
+        ConfigurationService.BORDER_SIZES.put(World.Environment.NETHER, 1000);
+        ConfigurationService.BORDER_SIZES.put(World.Environment.THE_END, 500);
+        ConfigurationService.SPAWN_RADIUS_MAP.put(World.Environment.NORMAL, 25);
+        ConfigurationService.SPAWN_RADIUS_MAP.put(World.Environment.NETHER, 25);
+        ConfigurationService.SPAWN_RADIUS_MAP.put(World.Environment.THE_END, 0);
+        ConfigurationService.DEFAULT_DEATHBAN_DURATION = TimeUnit.MINUTES.toMillis(config.getInt("deathban-time", 120));
+        ConfigurationService.TEAMMATE_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.teammate", "&2").replace("&", "").trim());
+        ConfigurationService.ALLY_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.ally", "&3").replace("&", "").trim());
+        ConfigurationService.ENEMY_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.enemy", "&c").replace("&", "").trim());
+        ConfigurationService.SAFEZONE_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.safezone", "&b").replace("&", "").trim());
+        ConfigurationService.ROAD_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.road", "&c").replace("&", "").trim());
+        ConfigurationService.TARGET = ChatColor.getByChar(config.getString("faction-settings.colors.target", "&d").replace("&", "").trim());
+        ConfigurationService.WARZONE_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.warzone", "&c").replace("&", "").trim());
+        ConfigurationService.BASECOLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.default", "&7").replace("&", "").trim());
+        ConfigurationService.WILDERNESS_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.wilderness", "&d").replace("&", "").trim());
+        ConfigurationService.GLOWSTONE_COLOUR = ChatColor.getByChar(config.getString("faction-settings.colors.glowstone", "&b").replace("&", "").trim());
+        ConfigurationService.DTR_MILLIS_BETWEEN_UPDATES = TimeUnit.SECONDS.toMillis(45L);
+        ConfigurationService.DTR_WORDS_BETWEEN_UPDATES = DurationFormatUtils.formatDurationWords(ConfigurationService.DTR_MILLIS_BETWEEN_UPDATES, true, true);
+        ConfigurationService.CRATE_BROADCASTS = false;
+        ConfigurationService.SERVER_NAME = config.getString("server-info.server-name", "HCF");
+        ConfigurationService.COBBLE_ENABLED = ChatColor.translateAlternateColorCodes('&', config.getString("messages.cobble-enabled"));
+        ConfigurationService.COBBLE_DISABLED = ChatColor.translateAlternateColorCodes('&', config.getString("messages.cobble-disabled"));
+        ConfigurationService.LOGOUT_ALREADY_STARTED = ChatColor.translateAlternateColorCodes('&', config.getString("timers.messages.logout-already-started"));
+        ConfigurationService.LOGOUT_STARTED = ChatColor.translateAlternateColorCodes('&', config.getString("timers.messages.logout-started"));
+        ConfigurationService.LOGOUT_DISCONNECT = ChatColor.translateAlternateColorCodes('&', config.getString("timers.messages.logout-safely"));
+        ConfigurationService.SOTW_STARTED = ChatColor.translateAlternateColorCodes('&', config.getString("sotw.started"));
+        ConfigurationService.SOTW_CANCELLED = ChatColor.translateAlternateColorCodes('&', config.getString("sotw.cancelled"));
+        ConfigurationService.SOTW_NOT_ACTIVE = ChatColor.translateAlternateColorCodes('&', config.getString("sotw.not-active"));
+        ConfigurationService.SOTW_ENDED_ONE = ChatColor.translateAlternateColorCodes('&', config.getString("sotw.ended-one"));
+        ConfigurationService.SOTW_ENDED_TWO = ChatColor.translateAlternateColorCodes('&', config.getString("sotw.ended-two"));
+        ConfigurationService.DOUBLE_ARROW = config.getString("double_arrow");
+        ConfigurationService.DEATHBAN_BYPASS = ChatColor.translateAlternateColorCodes('&', config.getString("messages.deathban-bypass"));
+        ConfigurationService.DEATHBANNED_EOTW = ChatColor.translateAlternateColorCodes('&', config.getString("messages.deathbanned-eotw"));
+        ConfigurationService.DEATHBANNED_ACTIVE = ChatColor.translateAlternateColorCodes('&', config.getString("messages.deathbanned-active"));
+        ConfigurationService.STILL_DEATHBANNED = ChatColor.translateAlternateColorCodes('&', config.getString("messages.still-deathbanned"));
+        ConfigurationService.DEATHBANNED_EOTW_ENTIRE = ChatColor.translateAlternateColorCodes('&', config.getString("messages.deathbanned-eotw-entire"));
+        ConfigurationService.ECONOMY_YOUR_BALANCE = ChatColor.translateAlternateColorCodes('&', config.getString("messages.economy.your-balance", "&eYour balance is &d%BALANCE%"));
+        ConfigurationService.ECONOMY_OTHERS_BALANCE = ChatColor.translateAlternateColorCodes('&', config.getString("messages.economy.others-balance", "&eBalance of &a%PLAYER%&e is &d%BALANCE%"));
+        ConfigurationService.END_CANNOT_BUILD = ChatColor.translateAlternateColorCodes('&', config.getString("messages.end-cannot-build"));
+        ConfigurationService.WORLD_CANNOT_BUILD = ChatColor.translateAlternateColorCodes('&', config.getString("messages.world-cannot-build"));
+        ConfigurationService.FAILED_PEARL = ChatColor.translateAlternateColorCodes('&', config.getString("messages.failed-pearl"));
+        ConfigurationService.TELEPORTED_SPAWN = ChatColor.translateAlternateColorCodes('&', config.getString("messages.teleport-spawn"));
+        ConfigurationService.CANNOT_ATTACK = ChatColor.translateAlternateColorCodes('&', config.getString("messages.cannot-attack"));
+        ConfigurationService.IN_FACTION = ChatColor.translateAlternateColorCodes('&', config.getString("messages.in-faction"));
+        ConfigurationService.ALLY_FACTION = ChatColor.translateAlternateColorCodes('&', config.getString("messages.ally-faction"));
+        ConfigurationService.REVIVE_MESSAGE = ChatColor.translateAlternateColorCodes('&', config.getString("messages.revive-message"));
+        ConfigurationService.LOGOUT_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.logout-timer"));
+        ConfigurationService.LOGOUT_COLOUR = ChatColor.getByChar(config.getString("timers.logout-color", "&e").replace("&", "").trim());
+        ConfigurationService.ENDERPEARL_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.enderpearl-timer"));
+        ConfigurationService.ENDERPEARL_COLOUR = ChatColor.getByChar(config.getString("timers.enderpearl-color", "&e").replace("&", "").trim());
+        ConfigurationService.ARCHER_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.archer-timer"));
+        ConfigurationService.ARCHER_COLOUR = ChatColor.getByChar(config.getString("timers.archer-color", "&c").replace("&", "").trim());
+        ConfigurationService.NOTCH_APPLE_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.notch-apple-timer"));
+        ConfigurationService.NOTCH_APPLE_COLOUR = ChatColor.getByChar(config.getString("timers.notch-apple-color", "&6").replace("&", "").trim());
+        ConfigurationService.PVP_CLASS_WARMUP_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.pvp-class-warmup-timer"));
+        ConfigurationService.PVP_CLASS_WARMUP_COLOUR = ChatColor.getByChar(config.getString("timers.pvp-class-warmup-color", "&b").replace("&", "").trim());
+        ConfigurationService.PVPTIMER_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.pvptimer-timer"));
+        ConfigurationService.PVPTIMER_COLOUR = ChatColor.getByChar(config.getString("timers.pvptimer-color", "&a").replace("&", "").replace("&l", "").trim());
+        ConfigurationService.SOTW_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.sotw-timer"));
+        ConfigurationService.SOTW_COLOUR = ChatColor.getByChar(config.getString("timers.sotw-color", "&c").replace("&", "").trim());
+        ConfigurationService.SPAWNTAG_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.spawntag-timer"));
+        ConfigurationService.SPAWNTAG_COLOUR = ChatColor.getByChar(config.getString("timers.spawntag-color", "&c").replace("&", "").trim());
+        ConfigurationService.STUCK_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.stuck-timer"));
+        ConfigurationService.STUCK_COLOUR = ChatColor.getByChar(config.getString("timers.stuck-color", "&c").replace("&", "").trim());
+        ConfigurationService.TELEPORT_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.teleport-timer"));
+        ConfigurationService.TELEPORT_COLOUR = ChatColor.getByChar(config.getString("timers.teleport-color", "&9").replace("&", "").trim());
+        ConfigurationService.EVENT_TIMER = ChatColor.translateAlternateColorCodes('&', config.getString("timers.event-timer"));
+        ConfigurationService.EVENT_COLOUR = ChatColor.getByChar(config.getString("timers.event-color", "&9&l").replace("&", "").trim());
+        ConfigurationService.ENDERPEARL_COOLDOWN_EXPIRED = ChatColor.translateAlternateColorCodes('&', config.getString("timers.messages.enderpearl-expired"));
+        ConfigurationService.ENDERPEARL_ITEM = ChatColor.translateAlternateColorCodes('&', config.getString("timers.messages.enderpearl-item"));
+        ConfigurationService.SPAWN_TAGGED = ChatColor.translateAlternateColorCodes('&', config.getString("timers.messages.spawn-tagged"));
+        ConfigurationService.UNBUILDABLE_RANGE = config.getInt("unbuildable-range");
+        ConfigurationService.ALLOW_CLAIMING_BESIDES_ROADS = config.getBoolean("allow_claiming_besides_roads", ConfigurationService.ALLOW_CLAIMING_BESIDES_ROADS);
+        ConfigurationService.MAX_CLAIMS_PER_FACTION = config.getInt("max_claims_per_faction", ConfigurationService.MAX_CLAIMS_PER_FACTION);
+        ConfigurationService.NUCLEUS = config.getBoolean("nucleus");
+        ConfigurationService.DEATHBAN_ROOM = config.getBoolean("deathban_room.enabled");
+        ConfigurationService.WORLD_BORDER = config.getInt("world.world");
+        ConfigurationService.NETHER_BORDER = config.getInt("world.nether");
+        ConfigurationService.END_BORDER = config.getInt("world.end");
+    }
+}
